@@ -5,6 +5,8 @@
 version: 2
 jobs:
   build:
+    environment:
+      DJANGO_SETTINGS_MODULE: 'app.hello_circleci.settings_test'
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -38,6 +40,11 @@ jobs:
           paths:
             - ./venv
 
+      - run:
+          name: Echo current loc
+          command: |
+            pwd
+
       # run tests!
       # this example uses Django's built-in test-runner
       # other common Python testing frameworks include pytest and nose
@@ -46,7 +53,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            pipenv run python -m pytest
+            pipenv run python -m pytest app/tests
 
       - store_artifacts:
           path: test-reports
